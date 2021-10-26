@@ -4,10 +4,6 @@ import os.path
 from PIL import Image, ImageOps
 from processing_list import *
 
-sg.theme('Default1')
-
-default_nilai = 100
-
 # Kolom Area No 1: Area open folder and select image
 file_list_column = [
     [
@@ -91,8 +87,7 @@ list_processing = [
 image_viewer_column2 = [
     [sg.Text("Image Processing Output:")],
     [sg.Text(size=(40, 1), key="ImgProcessingType")],
-    [sg.Image(key="ImgOutputViewer")],
-    [sg.Slider(range=(0, 200), default_value=default_nilai, orientation='h', size=(30, 10), change_submits=True, visible=False, key="nilai")] 
+    [sg.Image(key="ImgOutputViewer")]
 ]
 
 # Gabung Full layout
@@ -116,11 +111,6 @@ while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Quit':
         break
-    #nilai slider update
-    sz = int(values['nilai'])
-    if sz != default_nilai:
-        default_nilai = sz
-        window['nilai'].update(sz)
     # Folder name was filled in, make a list of files in the folder
     if event == "ImgFolder":
         folder = values["ImgFolder"]
@@ -166,7 +156,6 @@ while True:
 
         try:
             window["ImgProcessingType"].update("Image Negative")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgNegative(img_input,coldepth)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -176,7 +165,6 @@ while True:
     elif event == "ImgBright":
         try:
             window["ImgProcessingType"].update("Image Brightness")
-            window.Element('nilai').Update(visible=True,range=(-200,200))
             img_output=ImgBrightness(img_input,coldepth,80)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -186,7 +174,6 @@ while True:
     elif event == "ImgThresh":
         try:
             window["ImgProcessingType"].update("Image Thresholding")
-            window.Element('nilai').Update(visible=True,range=(0,256))
             img_output=ImgThreshold(img_input,coldepth,128)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -196,7 +183,6 @@ while True:
     elif event == "ImgRotate45":
         try:
             window["ImgProcessingType"].update("Image Rotate 45° C")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgRotate(img_input,-45)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -206,7 +192,6 @@ while True:
     elif event == "ImgRotate90":
         try:
             window["ImgProcessingType"].update("Image Rotate 90° C")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgRotate(img_input,-90)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -216,7 +201,6 @@ while True:
     elif event == "ImgRotate90CC":
         try:
             window["ImgProcessingType"].update("Image Rotate 90° CC")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgRotate(img_input,90)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -226,7 +210,6 @@ while True:
     elif event == "ImgRotate180":
         try:
             window["ImgProcessingType"].update("Image Rotate 180°")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgRotate(img_input,180)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -236,7 +219,6 @@ while True:
     elif event == "ImgFlipH":
         try:
             window["ImgProcessingType"].update("Image Flip Horizontal")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgFlipHorizontal(img_input,coldepth)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -246,7 +228,6 @@ while True:
     elif event == "ImgFlipV":
         try:
             window["ImgProcessingType"].update("Image Flip Vertical")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgFlipVertical(img_input,coldepth)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -256,7 +237,6 @@ while True:
     elif event == "ImgTrans":
         try:
             window["ImgProcessingType"].update("Image Translation (100,100)")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgTranslation(img_input,coldepth,100,100)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -266,7 +246,6 @@ while True:
     elif event == "ImgTrans2":
         try:
             window["ImgProcessingType"].update("Image Translation (-100,-100)")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgTranslation(img_input,coldepth,-100,-100)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -276,7 +255,6 @@ while True:
     elif event == "ImgScale":
         try:
             window["ImgProcessingType"].update("Image Scale")
-            window.Element('nilai').Update(visible=True,range=(0,180))
             img_output=ImgScale(img_input,coldepth,default_nilai)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -286,7 +264,6 @@ while True:
     elif event == "ImgZoom":
         try:
             window["ImgProcessingType"].update("Image Zooming (+50%)")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgScale(img_input,coldepth,150)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -296,7 +273,6 @@ while True:
     elif event == "ImgShrink":
         try:
             window["ImgProcessingType"].update("Image Shrinking (-50%)")
-            window.Element('nilai').Update(visible=False)
             img_output=ImgScale(img_input,coldepth,50)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
