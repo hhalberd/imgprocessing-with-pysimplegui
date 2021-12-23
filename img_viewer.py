@@ -73,12 +73,12 @@ image_viewer_column = [
 list_processing = [
     [sg.Frame('Image Transformations:',[
     [
-        sg.Button("Rotate 45° Ke-kanan", size=(9, 2), key="ImgRotate45C"),
-        sg.Button("Rotate 45° Ke-kiri", size=(9, 2), key="ImgRotate45CC"),
+        sg.Button("Rotate 45° Ke-Kiri", size=(9, 2), key="ImgRotate45CC"),
+        sg.Button("Rotate 45° Ke-Kanan", size=(9, 2), key="ImgRotate45C"),
     ],
     [
-        sg.Button("Rotate 90° Ke-kanan", size=(9, 2), key="ImgRotate90C"),
-        sg.Button("Rotate 90° Ke-kiri", size=(9, 2), key="ImgRotate90CC"),
+        sg.Button("Rotate 90° Ke-Kiri", size=(9, 2), key="ImgRotate90CC"),
+        sg.Button("Rotate 90° Ke-Kanan", size=(9, 2), key="ImgRotate90C"),
     ],
     [
         sg.Button("Flip    Horizontal", size=(9, 2), key="ImgFlipH"),        
@@ -212,8 +212,8 @@ while True:
     
     elif event == "ImgRotate45C":
         try:
-            window["ImgProcessingType"].update("Image Rotate 45° Kekanan")
-            img_output=ImgRotate(img_input,45)
+            window["ImgProcessingType"].update("Image Rotate 45° Kekiri")
+            img_output=ImgRotate(img_input,-45)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
         except:
@@ -221,8 +221,8 @@ while True:
         
     elif event == "ImgRotate45CC":
         try:
-            window["ImgProcessingType"].update("Image Rotate 45° Kekiri")
-            img_output=ImgRotate(img_input,-45)
+            window["ImgProcessingType"].update("Image Rotate 45° Kekanan")
+            img_output=ImgRotate(img_input,45)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
         except:
@@ -230,8 +230,8 @@ while True:
     
     elif event == "ImgRotate90CC":
         try:
-            window["ImgProcessingType"].update("Image Rotate 90° Kekiri")
-            img_output=ImgRotate(img_input,-90)
+            window["ImgProcessingType"].update("Image Rotate 90° Kekanan")
+            img_output=ImgRotate(img_input,90)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
         except:
@@ -239,8 +239,8 @@ while True:
 
     elif event == "ImgRotate90C":
         try:
-            window["ImgProcessingType"].update("Image Rotate 90° Kekanan")
-            img_output=ImgRotate(img_input,90)
+            window["ImgProcessingType"].update("Image Rotate 90° Kekiri")
+            img_output=ImgRotate(img_input,-90)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
         except:
