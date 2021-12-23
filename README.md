@@ -1,4 +1,4 @@
 # imgprocessing-with-pysimplegui
 Pembuatan aplikasi simple editing citra dengan Python dan PySimpleGUI
 
-![2021-12-23 09 17 38](https://user-images.githubusercontent.com/86338713/147177565-83ecb586-d036-4ee2-81fa-bce459daa072.png)
+![2021-12-23 10 35 24](https://user-images.githubusercontent.com/86338713/147184228-d26298e2-cad3-4a3b-baf2-5d107c791806.png)
