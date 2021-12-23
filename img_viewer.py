@@ -4,13 +4,17 @@ import os.path
 from PIL import Image, ImageOps
 from processing_list import *
 
+sg.theme('Default1')
+
+default_nilai = 100
+
 # Kolom Area No 1: Area open folder and select image
 file_list_column = [
     [
         sg.Text("Open Image Folder :"),
     ],
     [
-        sg.In(size=(20, 1), enable_events=True, key="ImgFolder"),
+        sg.In(size=(15, 1), enable_events=True, key="ImgFolder"),
         sg.FolderBrowse(),
     ],
     [
@@ -18,76 +22,103 @@ file_list_column = [
     ],
     [
         sg.Listbox(
-            values=[], enable_events=True, size=(18, 10), key="ImgList"
+            values=[], enable_events=True, size=(23, 4), key="ImgList"
             )
-        ],
-    ]
-# Kolom Area No 2: Area viewer image input
-image_viewer_column = [
-    [sg.Text("Image Input :")],
-    [sg.Text(size=(40, 1), key="FilepathImgInput")],
-    [sg.Image(key="ImgInputViewer")],
-]
-
-# Kolom Area No 3: Area Image info dan Tombol list of processing
-list_processing = [
-    [
-        sg.Text("Image Information:"),
     ],
+    [sg.Frame('Image Information:',[
     [
         sg.Text(size=(20, 1), key="ImgSize"),
     ],
     [
         sg.Text(size=(20, 1), key="ImgColorDepth"),
     ],
+    ],)],
+    [sg.Frame('Image Enhancements:',[
     [
-        sg.Text("List of Processing:"),
+        sg.Button("Image Thresholding", size=(20, 1), key="ImgThresh"),
     ],
     [
-        sg.Button("Image Negative", size=(25, 1), key="ImgNegative"),
+        sg.Button("Image Negative", size=(20, 1), key="ImgNegative"),
     ],
     [
-        sg.Button("Image Brightness (+80)", size=(25, 1), key="ImgBright"),
+        sg.Button("Image Brightness", size=(20, 1), key="ImgBright"),
     ],
     [
-        sg.Button("Image Threshold (+128)", size=(25, 1), key="ImgThresh"),
+        sg.Button("Image Logarithmic", size=(20, 1), key="ImgLog"),
     ],
     [
-        sg.Button("Image Rotate 45° C", size=(25, 1), key="ImgRotate45"),
+        sg.Button("Image Dilasi", size=(20, 1), key="ImgDilation"),
     ],
     [
-        sg.Button("Image Rotate 90° C", size=(25, 1), key="ImgRotate90"),
+        sg.Button("Image Erosi", size=(20, 1), key="ImgErosion"),
+    ],
+    ],)],
+    [sg.Frame('Image Conversions:',[
+    [
+        sg.Button("RGB to Grayscale", size=(20, 1), key="ImgGray"),
     ],
     [
-        sg.Button("Image Rotate 90° CC", size=(25, 1), key="ImgRotate90CC"),
+        sg.Button("RGB to HSV", size=(20, 1), key="ImgHSV"),
     ],
-    [
-        sg.Button("Image Rotate 180°", size=(25, 1), key="ImgRotate180"),
-    ],
-    [
-        sg.Button("Image Flip Horizontal", size=(25, 1), key="ImgFlipH"),
-    ],
-    [
-        sg.Button("Image Flip Vertical", size=(25, 1), key="ImgFlipV"),
-    ],
-    [
-        sg.Button("Image Zooming (+50%)", size=(25, 1), key="ImgZoom"),
-    ],
-    [
-        sg.Button("Image Shrinking (-50%)", size=(25, 1), key="ImgShrink"),
-    ],
-    [
-        sg.Button("Image Translation (100,100)", size=(25, 1), key="ImgTrans"),
-    ],
-    [
-        sg.Button("Image Translation (-100,-100)", size=(25, 1), key="ImgTrans2"),
-    ],
+    ],)],
+    ]
+# Kolom Area No 2: Area viewer image input
+image_viewer_column = [
+    [sg.Text("Image Input :")],
+    [sg.Text(size=(20, 1), key="FilepathImgInput")],
+    [sg.Image(key="ImgInputViewer")],
 ]
+
+# Kolom Area No 3: Area Image info dan Tombol list of processing
+list_processing = [
+    [sg.Frame('Image Transformations:',[
+    [
+        sg.Button("Rotate 45° Ke-kanan", size=(9, 2), key="ImgRotate45C"),
+        sg.Button("Rotate 45° Ke-kiri", size=(9, 2), key="ImgRotate45CC"),
+    ],
+    [
+        sg.Button("Rotate 90° Ke-kanan", size=(9, 2), key="ImgRotate90C"),
+        sg.Button("Rotate 90° Ke-kiri", size=(9, 2), key="ImgRotate90CC"),
+    ],
+    [
+        sg.Button("Flip    Horizontal", size=(9, 2), key="ImgFlipH"),        
+        sg.Button("Flip       Vertical", size=(9, 2), key="ImgFlipV"),
+    ],
+    [
+        sg.Button("Zooming (+50%)", size=(9, 2), key="ImgZoom"),
+        sg.Button("Shrinking (-50%)", size=(9, 2), key="ImgShrink"),
+    ],
+    [
+        sg.Button("Translation (100,100)", size=(9, 2), key="ImgTrans"),
+        sg.Button("Translation (-100,-100)", size=(9, 2), key="ImgTrans2"),
+    ], 
+    ],)],
+    [sg.Frame('Image Filterings:',[
+    [
+        sg.Button("Mean Filter", size=(20, 1), key="ImgMean"),
+    ],
+    [
+        sg.Button("Median Filter", size=(20, 1), key="ImgMedian"),
+    ],
+    [
+        sg.Button("Gaussian Filter", size=(20, 1), key="ImgGaussian"),
+    ],
+    ],)],
+    [sg.Frame('Edge Detections:',[
+    [
+        sg.Button("Sobel", size=(20, 1), key="ImgSobel"),
+    ],
+    [
+        sg.Button("Laplacian", size=(20, 1), key="ImgLaplace"),
+    ],
+    ],)],
+]
+
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
     [sg.Text("Image Processing Output:")],
-    [sg.Text(size=(40, 1), key="ImgProcessingType")],
-    [sg.Image(key="ImgOutputViewer")]
+    [sg.Text(size=(20, 1), key="ImgProcessingType")],
+    [sg.Image(key="ImgOutputViewer")],
 ]
 
 # Gabung Full layout
@@ -95,10 +126,9 @@ layout = [
     [
         sg.Column(file_list_column),
         sg.VSeperator(),
-        sg.Column(image_viewer_column),
-        sg.VSeperator(),
         sg.Column(list_processing),
         sg.VSeperator(),
+        sg.Column(image_viewer_column),
         sg.Column(image_viewer_column2),
     ]
 ]
@@ -180,27 +210,36 @@ while True:
         except:
             pass
     
-    elif event == "ImgRotate45":
+    elif event == "ImgRotate45C":
         try:
-            window["ImgProcessingType"].update("Image Rotate 45° C")
+            window["ImgProcessingType"].update("Image Rotate 45° Kekanan")
+            img_output=ImgRotate(img_input,45)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+        
+    elif event == "ImgRotate45CC":
+        try:
+            window["ImgProcessingType"].update("Image Rotate 45° Kekiri")
             img_output=ImgRotate(img_input,-45)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
         except:
             pass
-
-    elif event == "ImgRotate90":
+    
+    elif event == "ImgRotate90CC":
         try:
-            window["ImgProcessingType"].update("Image Rotate 90° C")
+            window["ImgProcessingType"].update("Image Rotate 90° Kekiri")
             img_output=ImgRotate(img_input,-90)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
         except:
             pass
 
-    elif event == "ImgRotate90CC":
+    elif event == "ImgRotate90C":
         try:
-            window["ImgProcessingType"].update("Image Rotate 90° CC")
+            window["ImgProcessingType"].update("Image Rotate 90° Kekanan")
             img_output=ImgRotate(img_input,90)
             img_output.save(filename_out)
             window["ImgOutputViewer"].update(filename=filename_out)
@@ -252,14 +291,6 @@ while True:
         except:
             pass
         
-    elif event == "ImgScale":
-        try:
-            window["ImgProcessingType"].update("Image Scale")
-            img_output=ImgScale(img_input,coldepth,default_nilai)
-            img_output.save(filename_out)
-            window["ImgOutputViewer"].update(filename=filename_out)
-        except:
-            pass
         
     elif event == "ImgZoom":
         try:
@@ -279,4 +310,102 @@ while True:
         except:
             pass
 
+    elif event == "ImgLog":
+        try:
+            window["ImgProcessingType"].update("Image Logarithmic")
+            img_output=ImgLogarithmic(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+
+    elif event == "ImgMean":
+        try:
+            window["ImgProcessingType"].update("Image Mean Filtering")
+            img_output=ImgMeanFilter(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+
+    elif event == "ImgMedian":
+        try:
+            window["ImgProcessingType"].update("Image Median Filtering")
+            img_output=ImgMedianFilter(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+
+    elif event == "ImgGaussian":
+        try:
+            window["ImgProcessingType"].update("Image Gaussian Filtering")
+            img_output=ImgGaussFilter(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+        
+    elif event == "ImgDilation":
+        try:
+            window["ImgProcessingType"].update("Image Dilasi")
+            img_output=ImgDilation(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+        
+    elif event == "ImgErosion":
+        try:
+            window["ImgProcessingType"].update("Image Erosi")
+            img_output=ImgErosion(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+        
+    elif event == "ImgEdge":
+        try:
+            window["ImgProcessingType"].update("Image Edge Detection")
+            img_output=ImgEdge(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+        
+    elif event == "ImgGray":
+        try:
+            window["ImgProcessingType"].update("Image RGB to Grayscale")
+            img_output=ImgGrayscale(img_input,coldepth)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+        
+    elif event == "ImgHSV":
+        try:
+            window["ImgProcessingType"].update("Image RGB to HSV")
+            img_output=ImgRGB_HSV(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+
+    elif event == "ImgSobel":
+        try:
+            window["ImgProcessingType"].update("Sobel Edge Detection")
+            img_output=ImgSobel(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
+        
+    elif event == "ImgLaplace":
+        try:
+            window["ImgProcessingType"].update("Laplacian Edge Detection")
+            img_output=ImgLaplacian(img_input)
+            img_output.save(filename_out)
+            window["ImgOutputViewer"].update(filename=filename_out)
+        except:
+            pass
 window.close()
